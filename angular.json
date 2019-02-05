@@ -28,8 +28,7 @@
               "src/styles/bootswatch_darkly.min.css"
             ],
             "scripts": [
-              "src/scripts/loading-bar.js",
-              "src/scripts/supply-timer.js"
+              "src/scripts/loading-bar.js"
             ],
             "es5BrowserSupport": true
           },
