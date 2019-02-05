@@ -1,0 +1,9 @@
+.cartimer {
+    width: 400px;
+    
+}
+
+.cartimer .form-control {
+    margin: 0 auto;
+    width:140px;
+}

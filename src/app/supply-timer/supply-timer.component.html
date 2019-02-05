@@ -1,0 +1,80 @@
+<div class="container supplytimer {{type}}timer">
+<div class="form-group row">
+    <div class="col-lg-12">
+        <h3>{{ title }}</h3>
+    </div>
+</div>
+<form>
+<div class="form-group row">
+    <div class="col-lg-12">
+        <input type="button" class="btn btn-primary" id="{{type}}-updateSupplyBtn" value="Update Supply and Stock" (click)='startTimer()'/>
+    </div>
+</div>
+<div class="form-group row">
+  <div class="col-lg-6">
+    <label>Enter Initial Supplies (%)</label>
+    <br>
+    <input class="form-control" (input)="supplies=$event.target.value" type="number" step="0.1" min="0.00" max="100.00" placeholder="0.00">
+  </div>
+  <div class="col-lg-6">
+      <label>Enter Initial Stock (%)</label>
+      <br>
+      <input class="form-control" (input)="stock=$event.target.value" type="number" step="0.1" min="0.00" max="100.00" placeholder="0.00" pattern="/^[0-9]+(\.[0-9]{1,2})?$/" >
+  </div>
+</div>
+<div class="form-group row">
+    <div class="col-lg-6">
+        <label>Time Left - Supplies</label>
+        <br>
+        <input class="form-control"  value="{{suppliesTimeLeftDisplay}}" disabled type="text" id="{{type}}-timeLeftSupplies">
+      </div>
+    <div class="col-lg-6">
+      <label>Time Left - Stock</label>
+      <br>
+      <input class="form-control"  value="{{stockTimeLeftDisplay}}" disabled type="text" id="{{type}}-timeLeftStock">
+    </div>
+</div>
+  <!--- FYI: For the custom loading bar library, data-img overrides the data-path and data-fill --->
+  <div class="form-group row">
+      <div class="col-lg-6">
+      <label>Remaining Supplies</label>
+      <br>
+      <div style="width:100%;height:100px" id="{{type}}-suppliesBar"
+        data-type="fill"
+        attr.data-path="{{progressBarVectorPath}}"
+        class="ldBar"
+        attr.data-fill="{{progressBarFillColor}}" 
+        attr.data-fill-background="{{progressBarBgColor}}" 
+        data-value="0"
+      ></div>
+      </div>
+
+  <div class="form-group col-lg-6">
+    <label>Remaining Stock</label>
+    <br>
+    <div 
+      style="width:100%;height:100px" id="{{type}}-stockBar" 
+      data-type="fill"
+      attr.data-path="{{progressBarVectorPath}}"
+      class="ldBar"
+      attr.data-fill="{{progressBarFillColor}}"
+      attr.data-fill-background="{{progressBarBgColor}}"
+      data-value="0" 
+    ></div> 
+    <!--
+    <div 
+      style="width:100%;height:100px" id="{{type}}-stockBar" 
+      data-type="fill"
+      data-path="M10 10L90 10L90 90L10 90Z"
+      class="ldBar"
+      data-fill="data:ldbar/res,gradient(90,0,#00FF00,#FFFF00,#FF0000)"
+      data-img="assets/Cannabis_leaf.svg"
+      data-value="0" 
+    ></div> 
+    -->
+  </div>
+</div>
+</form>
+</div>
+
+

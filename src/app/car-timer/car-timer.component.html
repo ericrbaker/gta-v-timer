@@ -1,0 +1,36 @@
+<div class="container cartimer">
+  <div class="form-group row">
+      <div class="col-lg-12">
+          <h3>{{title}}</h3>
+      </div>
+  </div>
+  <form>
+  <div class="form-group row">
+      <div class="col-lg-12">
+          <input type="button" class="btn btn-primary" id="{{type}}-updateCarBtn" value="Update Car Delivery Timer" (click)='startTimer()'/>
+      </div>
+  </div>
+  <div class="form-group row">
+    <div class="col-lg-12">
+      <label>Cars Delivered</label>
+      <br>
+      <input class="form-control" (input)="numCars=$event.target.value" type="range" value="0" min="0" max="4" list="ticks">
+      <datalist id="ticks">
+          <option>0</option>
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+      </datalist>
+    </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-lg-12">
+        <label>Car Delivery Cooldown</label>
+        <br>
+        <input class="form-control" value="{{timeLeftDisplay}}" disabled type="text" id="carsTimeLeft">
+      </div>
+    </div>
+  
+</form>
+</div>
