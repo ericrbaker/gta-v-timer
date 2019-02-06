@@ -25,11 +25,12 @@ export class SupplyTimerComponent implements OnInit {
   @Input() progressBarFillColor: string;
   @Input() progressBarBgColor: string;
 
-  suppliesTimeLeft : number;
+  suppliesSeconds : number;
   suppliesTimeLeftDisplay: string;
   
-  stockTimeLeft : number;
+  stockSeconds : number;
   stockTimeLeftDisplay: string;
+  elapsedStockSeconds: number;
 
   supplies: number;
   stock: number;
@@ -52,9 +53,9 @@ export class SupplyTimerComponent implements OnInit {
       this.stock = 0;
 
     // calculate time left based on user input
-    this.suppliesTimeLeft = ((this.supplies/100) * this.fullSuppliesMinutes) * 60;
-    this.stockTimeLeft = ((this.stock/100) * this.fullStockMinutes) * 60;
-    var elapsedStockSeconds = this.totalStockSec - this.stockTimeLeft;
+    this.suppliesSeconds = ((this.supplies/100) * this.fullSuppliesMinutes) * 60;
+    this.stockSeconds = ((this.stock/100) * this.fullStockMinutes) * 60;
+    this.elapsedStockSeconds = this.totalStockSec - this.stockSeconds;
 
     // start timer that ticks every 1 second (1000 ms)
     this.source = timer(0, 1000);
@@ -63,31 +64,20 @@ export class SupplyTimerComponent implements OnInit {
       var suppliesLoadingBar = new ldBar("#" + this.type + "-suppliesBar");
       var stockLoadingBar = new ldBar("#" + this.type + "-stockBar");
 
-      if(this.suppliesTimeLeft > 0) {
-        this.suppliesTimeLeft = this.suppliesTimeLeft - 1;
-        this.suppliesTimeLeftDisplay = this.secondsToHms(this.suppliesTimeLeft);
+      if(this.suppliesSeconds > 0) {
+        this.suppliesSeconds = this.suppliesSeconds - 1;
+        this.stockSeconds = this.stockSeconds + 1;
+        this.elapsedStockSeconds = this.totalStockSec - this.stockSeconds;
+        this.suppliesTimeLeftDisplay = this.secondsToHms(this.suppliesSeconds);
+        this.stockTimeLeftDisplay = this.secondsToHms(this.elapsedStockSeconds);
       }
-      else if(this.suppliesTimeLeft == 0 ){ 
+      else if(this.suppliesSeconds == 0 ){ 
         this.gtaTimerService.publishMessage(`${this.title} supply is depleted.`);
-        this.suppliesTimeLeft = -1; // set to -1 to signal the supply timer is done
-      }
-
-      if(this.stockTimeLeft > 0) {
-        this.stockTimeLeft = this.stockTimeLeft - 1;
-        this.stockTimeLeftDisplay = this.secondsToHms(this.stockTimeLeft);
-      }
-      else if(this.stockTimeLeft == 0 ){
-        this.gtaTimerService.publishMessage(`${this.title} stock is depleted.`);
-        this.stockTimeLeft = -1; // set to -1 to signal the stock timer is done
-      }
-
-      suppliesLoadingBar.set(this.suppliesTimeLeft * this.percentSupplies);
-      stockLoadingBar.set(this.stockTimeLeft * this.percentStock);
-
-      // if they are both done, kill the timer
-      if(this.suppliesTimeLeft == -1 && this.stockTimeLeft == -1){
         this.subscribe.unsubscribe();
       }
+
+      suppliesLoadingBar.set(this.suppliesSeconds * this.percentSupplies);
+      stockLoadingBar.set(this.stockSeconds * this.percentStock);
 
     });
 
