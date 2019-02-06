@@ -1,9 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { timer } from 'rxjs'
-import '../../scripts/loading-bar.js'
 import { ConstantPool } from '@angular/compiler';
 import { GtaTimerService } from '../gta-timer.service'
 import { AngularWaitBarrier } from 'blocking-proxy/built/lib/angular_wait_barrier';
+import '../../scripts/loading-bar.js'
 
 declare var ldBar: any;
 

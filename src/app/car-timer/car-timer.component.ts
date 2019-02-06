@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { GtaTimerService } from '../gta-timer.service'
 import { timer } from 'rxjs'
 
 @Component({
@@ -13,7 +14,7 @@ export class CarTimerComponent implements OnInit {
   timeLeft: number;
   timeLeftDisplay: string;
 
-  constructor() { }
+  constructor(private gtaTimerService: GtaTimerService) { }
 
   startTimer() {
 
@@ -21,8 +22,6 @@ export class CarTimerComponent implements OnInit {
       return;
 
     // calculate time left based on user input
-    console.log(this.numCars*20)
-    console.log(((this.numCars - 1) * 10))
     this.timeLeft = (20 + ((this.numCars - 1) * 10)) * 60;
 
     // start timer that ticks every 1 second (1000 ms)
@@ -35,9 +34,12 @@ export class CarTimerComponent implements OnInit {
       }
      
       if(this.timeLeft == 0){
+        this.gtaTimerService.publishMessage(`${this.title} cooldown is up.`);
         subscribe.unsubscribe();
       }
     });
+
+    this.gtaTimerService.publishMessage(`${this.title} has been updated with ${this.numCars} cars.`);
   }
 
   secondsToHms(d) {
