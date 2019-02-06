@@ -21,9 +21,9 @@ export class SupplyTimerComponent implements OnInit {
   @Input() fullStockMinutes: number;
   @Input() percentSupplies: number;
   @Input() percentStock: number;
-  @Input() progressBarVectorPath: string;
-  @Input() progressBarFillColor: string;
-  @Input() progressBarBgColor: string;
+  @Input() supplyProgressBarVectorPath: string; @Input() stockProgressBarVectorPath: string;
+  @Input() supplyProgressBarFill: string; @Input() stockProgressBarFill: string;
+  @Input() supplyProgressBarBgColor: string; @Input() stockProgressBarBgColor: string;
 
   suppliesSeconds : number;
   suppliesTimeLeftDisplay: string;
@@ -53,8 +53,8 @@ export class SupplyTimerComponent implements OnInit {
       this.stock = 0;
 
     // calculate time left based on user input
-    this.suppliesSeconds = ((this.supplies/100) * this.fullSuppliesMinutes) * 60;
-    this.stockSeconds = ((this.stock/100) * this.fullStockMinutes) * 60;
+    this.suppliesSeconds = Math.floor(((this.supplies/100) * this.fullSuppliesMinutes) * 60);
+    this.stockSeconds = Math.floor(((this.stock/100) * this.fullStockMinutes) * 60);
     this.elapsedStockSeconds = this.totalStockSec - this.stockSeconds;
 
     // start timer that ticks every 1 second (1000 ms)
@@ -70,14 +70,19 @@ export class SupplyTimerComponent implements OnInit {
         this.elapsedStockSeconds = this.totalStockSec - this.stockSeconds;
         this.suppliesTimeLeftDisplay = this.secondsToHms(this.suppliesSeconds);
         this.stockTimeLeftDisplay = this.secondsToHms(this.elapsedStockSeconds);
+
+        if (this.elapsedStockSeconds == 0) {
+          this.gtaTimerService.publishMessage(`${this.title} stock is full.`);
+          this.subscribe.unsubscribe();
+        }
       }
-      else if(this.suppliesSeconds == 0 ){ 
+      else if(this.suppliesSeconds == 0) { 
         this.gtaTimerService.publishMessage(`${this.title} supply is depleted.`);
         this.subscribe.unsubscribe();
       }
 
-      suppliesLoadingBar.set(this.suppliesSeconds * this.percentSupplies);
-      stockLoadingBar.set(this.stockSeconds * this.percentStock);
+      suppliesLoadingBar.set(Math.floor(this.suppliesSeconds * this.percentSupplies));
+      stockLoadingBar.set(Math.floor(this.stockSeconds * this.percentStock));
 
     });
 
