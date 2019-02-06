@@ -10,7 +10,7 @@ import { timer } from 'rxjs'
 export class CarTimerComponent implements OnInit {
 
   @Input() title: string;
-  numCars: number;
+  numCars: number = 1; 
   timeLeft: number;
   timeLeftDisplay: string;
 
